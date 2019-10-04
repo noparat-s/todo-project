@@ -5,14 +5,15 @@ import (
 	"todo/cmd"
 	"todo/pkg/server"
 	"todo/pkg/server/rest"
+	"todo/pkg/service/todo"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	ctx := cmd.ContextWithSignal(context.Background())
-	handler := mux.NewRouter()
-	r := rest.NewRestServer(ctx, handler)
+	service := todo.NewService(ctx, mux.NewRouter())
+	r := rest.NewRestServer(ctx, service)
 	srv := server.NewServer(r)
 
 	srv.Start(ctx)
