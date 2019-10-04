@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package todo;
+
+message Todo {
+    int32 id = 1;
+    string name = 2;
+}
+message GetByID {
+    int32 id = 1;
+}
+
+service TodoService {
+    rpc GetTodo (GetByID) returns (Todo);
+}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"todo/cmd"
 	"todo/pkg/server"
+	"todo/pkg/server/grpc"
 	"todo/pkg/server/rest"
 	"todo/pkg/service/todo"
 
@@ -14,7 +15,8 @@ func main() {
 	ctx := cmd.ContextWithSignal(context.Background())
 	service := todo.NewService(ctx, mux.NewRouter())
 	r := rest.NewRestServer(ctx, service)
-	srv := server.NewServer(r)
+	gs := grpc.NewGRPCServer()
+	srv := server.NewServer(r, gs)
 
 	srv.Start(ctx)
 	defer srv.Close()
